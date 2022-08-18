@@ -1,8 +1,61 @@
+from datetime import date, timedelta
+
 from django.test import TestCase
+
+from kardex.models import Materia, Clase, Tarea
+
+INICIO: int = 15
+
+
+class ModelosTest(TestCase):
+    def setUp(self):
+        self.materia = Materia(
+            clave='1156',
+            nombre='Teoría del Conocimiento',
+            tipo='1',
+            semestre=1,
+            puntos=8
+        )
+        self.materia.save()
+        self.clase = Clase(
+            materia=self.materia,
+            periodo='2020-1',
+            grupo='8169',
+            asesor='Erika Angelina Nuevo Esteves'
+        )
+        self.clase.save()
+        self.tarea = Tarea(
+            clase=self.clase,
+            unidad=1,
+            actividad='1',
+            f_entrega=date(2020, 1, 16),
+            desc='Descripción de la tarea'
+        )
+        self.tarea.save()
+
+    def test_materia_string(self):
+        self.assertEqual(str(self.materia), '1156 Teoría del Conocimiento')
+
+    def test_materia_tipo_display(self):
+        self.assertEqual(self.materia.get_tipo_display(), 'Obligatoria')
+
+    def test_clase_string(self):
+        self.assertEqual(str(self.clase), '1156 - 8169 - Teoría del Conocimiento (2020-1)')
+
+    def test_tarea_string(self):
+        self.assertEqual(str(self.tarea), '1156:01:01')
+
+    def test_tarea_f_inicio(self):
+        self.assertEqual(self.tarea.f_inicio, date(2020, 1, 1))
+
+    def test_tarea_inicio(self):
+        self.assertEqual(self.tarea.f_inicio, self.tarea.f_entrega - timedelta(days=INICIO))
+
+    def tearDown(self):
+        pass
 
 
 class PruebaPortada(TestCase):
-
     def test_la_pagina_inicial_esta_funcionado(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
