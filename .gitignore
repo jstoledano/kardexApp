@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ### toledano ###
-.idea/dataSources.xml
+.idea/
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
