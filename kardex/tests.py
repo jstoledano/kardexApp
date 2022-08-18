@@ -1,3 +1,7 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class PruebaDeHumo(TestCase):
+
+    def test_suma_incorrecta(self):
+        self.assertEqual(1 + 1, 3)
