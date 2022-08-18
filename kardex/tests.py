@@ -24,14 +24,22 @@ class ModelosTest(TestCase):
             asesor='Erika Angelina Nuevo Esteves'
         )
         self.clase.save()
-        self.tarea = Tarea(
+        self.tarea1 = Tarea(
             clase=self.clase,
             unidad=1,
             actividad='1',
             f_entrega=date(2020, 1, 16),
             desc='Descripción de la tarea'
         )
-        self.tarea.save()
+        self.tarea1.save()
+        self.tareaC1 = Tarea(
+            clase=self.clase,
+            unidad=1,
+            actividad='C1',
+            f_entrega=date(2020, 1, 18),
+            desc='Descripción de la tarea'
+        )
+        self.tareaC1.save()
 
     def test_materia_string(self):
         self.assertEqual(str(self.materia), '1156 Teoría del Conocimiento')
@@ -42,14 +50,17 @@ class ModelosTest(TestCase):
     def test_clase_string(self):
         self.assertEqual(str(self.clase), '1156 - 8169 - Teoría del Conocimiento (2020-1)')
 
-    def test_tarea_string(self):
-        self.assertEqual(str(self.tarea), '1156:01:01')
+    def test_tarea1_string(self):
+        self.assertEqual(str(self.tarea1), '1156:01:01')
 
     def test_tarea_f_inicio(self):
-        self.assertEqual(self.tarea.f_inicio, date(2020, 1, 1))
+        self.assertEqual(self.tarea1.f_inicio, date(2020, 1, 1))
 
     def test_tarea_inicio(self):
-        self.assertEqual(self.tarea.f_inicio, self.tarea.f_entrega - timedelta(days=INICIO))
+        self.assertEqual(self.tarea1.f_inicio, self.tarea1.f_entrega - timedelta(days=INICIO))
+
+    def test_tareaC1_string(self):
+        self.assertEqual(str(self.tareaC1), '1156:01:C1')
 
     def tearDown(self):
         pass

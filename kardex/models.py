@@ -54,7 +54,7 @@ class Tarea(models.Model):
         if self.actividad.isnumeric():
             return f'{self.clase.materia.clave}:{self.unidad:02d}:{int(self.actividad):02d}'
         else:
-            return f'{self.clase.materia.clave}:{self.unidad}:{self.actividad}'
+            return f'{self.clase.materia.clave}:{self.unidad:02d}:{self.actividad}'
 
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
