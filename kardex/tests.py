@@ -21,7 +21,7 @@ class ModelosTest(TestCase):
             materia=self.materia,
             periodo='2020-1',
             grupo='8169',
-            asesor='Erika Angelina Nuevo Esteves'
+            asesor='Erika Angelina Nuevo'
         )
         self.clase.save()
         self.tarea1 = Tarea(
@@ -66,7 +66,8 @@ class ModelosTest(TestCase):
         pass
 
 
-class PruebaPortada(TestCase):
+class HomePageTest(TestCase):
+
     def test_la_pagina_inicial_esta_funcionado(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -78,3 +79,39 @@ class PruebaPortada(TestCase):
     def test_la_portada_usa_la_plantilla_correcta(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'kardex/index.html')
+
+    def test_one_entry(self):
+        self.materia = Materia(
+            clave='1264',
+            nombre='Costos y Presupuestos',
+            tipo='1',
+            semestre=6,
+            puntos=8
+        )
+        self.materia.save()
+        response = self.client.get('/')
+        self.assertContains(response, '1264')
+        self.assertContains(response, 'Costos y Presupuestos')
+
+    def test_two_entries(self):
+        self.materia = Materia(
+            clave='1264',
+            nombre='Costos y Presupuestos',
+            tipo='1',
+            semestre=6,
+            puntos=8
+        )
+        self.materia.save()
+        self.materia = Materia(
+            clave='1265',
+            nombre='Economía',
+            tipo='1',
+            semestre=6,
+            puntos=8
+        )
+        self.materia.save()
+        response = self.client.get('/')
+        self.assertContains(response, '1264')
+        self.assertContains(response, 'Costos y Presupuestos')
+        self.assertContains(response, '1265')
+        self.assertContains(response, 'Economía')
