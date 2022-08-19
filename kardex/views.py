@@ -1,5 +1,8 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView
+
+from .models import Materia
 
 
-class PortadaView(TemplateView):
+class PortadaView(ListView):
+    model = Materia
     template_name = "kardex/index.html"
