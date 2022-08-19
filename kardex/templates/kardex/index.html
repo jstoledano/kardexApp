@@ -1,17 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="accordion" id="materia_list">
-        {% for materia in materia_list %}
+    {% regroup materia_list by semestre as semestres %}
+    <pre>{{ semestre_list }}</pre>
+    <div class="accordion" id="semestre">
+        {% for semestre in semestres %}
             <div class="accordion-item">
-                <h2 class="accordion-header" id="materia{{ materia.clave }}">
-                    <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse{{ materia.clave }}" aria-expanded="true" aria-controls="collapse{{ materia.clave }}">
-                        {{ materia }}
+                <h2 class="accordion-header" id="semestre{{ semestre.grouper }}">
+                    <button class="accordion-button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ semestre.grouper }}"
+                            aria-expanded="true" aria-controls="collapse{{ semestre.grouper }}">
+                        Semestre {{ semestre.grouper }}
                     </button>
                 </h2>
-                <div class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" id="collapse{{ materia.clave }}" aria-labelledby="materia{{ materia.clave }}" data-bs-parent="#materia_list">
+
+                <div class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                     id="collapse{{ semestre.grouper }}"
+                     aria-labelledby="materia{{ semestre.grouper }}" data-bs-parent="#semestre">
                     <div class="accordion-body">
-                        <strong>{{ materia }}</strong>
+<table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Clave</th>
+                                <th>Nombre</th>
+                                <th>Créditos</th>
+                                <th>Calificación</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for materia in semestre.list %}
+                                <tr>
+                                    <td>{{ materia.clave }}</td>
+                                    <td>{{ materia.nombre }}</td>
+                                    <td>{{ materia.creditos }}</td>
+                                    <td>{{ materia.calif }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
