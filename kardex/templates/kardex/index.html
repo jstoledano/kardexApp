@@ -1,7 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for materia in materia_list %}
-        {{ materia }}
-    {% endfor %}
+    <div class="accordion" id="materia_list">
+        {% for materia in materia_list %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="materia{{ materia.clave }}">
+                    <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse{{ materia.clave }}" aria-expanded="true" aria-controls="collapse{{ materia.clave }}">
+                        {{ materia }}
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" id="collapse{{ materia.clave }}" aria-labelledby="materia{{ materia.clave }}" data-bs-parent="#materia_list">
+                    <div class="accordion-body">
+                        <strong>{{ materia }}</strong>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
