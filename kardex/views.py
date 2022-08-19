@@ -4,5 +4,5 @@ from .models import Materia
 
 
 class PortadaView(ListView):
-    model = Materia
+    queryset = Materia.objects.all().order_by('semestre', 'clave')
     template_name = "kardex/index.html"
